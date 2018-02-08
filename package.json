@@ -1,26 +1,23 @@
 {
-  "name": "node-js-getting-started",
+  "name": "watchdog",
   "version": "0.3.0",
-  "description": "A sample Node.js app using Express 4",
+  "description": "A sentry bot that helps monitor your public web assets",
   "engines": {
     "node": "8.9.1"
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "node test.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "ejs": "^2.5.6",
-    "express": "^4.15.2"
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "jest": "^22.2.1"
   },
-  "devDependencies": {
-    "request": "^2.81.0",
-    "tape": "^4.7.0"
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/jjmschofield/watchdog"
   },
   "keywords": [
     "node",
