@@ -2,6 +2,7 @@ const fetch = require('isomorphic-fetch');
 
 const {CHECK_STATUS} = require('../definitions/CHECK_STATUS');
 const {COLOURS} = require('../definitions/COLOURS');
+const {createCheckResult} = require('../models/CheckResult');
 
 
 module.exports = {
@@ -49,23 +50,18 @@ function fetchDomain(domain) {
 }
 
 function checkStatusIsOK(fetchResult) {
-    const result = {
-        slackField: {
-            title: 'HTTPS Status Check',
-            short: true
-        }
-    };
+    const checkResult = createCheckResult('HTTPS Status Check');
 
     if (fetchResult.ok === true) {
-        result.slackField.value = `:white_check_mark: ${fetchResult.status} ${fetchResult.statusText}`;
-        result.status = CHECK_STATUS.GOOD;
+        checkResult.slackField.value = `:white_check_mark: ${fetchResult.status} ${fetchResult.statusText}`;
+        checkResult.status = CHECK_STATUS.GOOD;
     }
     else {
-        result.slackField.value = `:rotating_light: ${fetchResult.status} ${fetchResult.statusText}`;
-        result.status = CHECK_STATUS.DANGER;
+        checkResult.slackField.value = `:rotating_light: ${fetchResult.status} ${fetchResult.statusText}`;
+        checkResult.status = CHECK_STATUS.DANGER;
     }
 
-    return result;
+    return checkResult;
 }
 
 function getDomainStatus(checks) {
