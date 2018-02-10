@@ -1,7 +1,9 @@
 const path = require('path');
 const express = require('express');
-const PORT = process.env.PORT || 5000;
+const morgan = require('morgan');
 const {createCommandRouter} = require('./commands/router');
+
+const PORT = process.env.PORT || 5000;
 
 module.exports = {
     init
@@ -9,6 +11,7 @@ module.exports = {
 
 function init() {
     const app = createExpressApp();
+    registerLoggerMiddleware(app);
     configureViewRenderer(app);
     registerDefaultRoute(app);
     registerCommandRouter(app);
@@ -17,6 +20,10 @@ function init() {
 
 function createExpressApp() {
     return express();
+}
+
+function registerLoggerMiddleware(app){
+    app.use(morgan('tiny'));
 }
 
 function registerDefaultRoute(app) {

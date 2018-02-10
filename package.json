@@ -12,9 +12,11 @@
   "dependencies": {
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
     "jest": "^22.2.1"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/jjmschofield/watchdog"
