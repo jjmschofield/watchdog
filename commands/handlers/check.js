@@ -1,5 +1,9 @@
 const fetch = require('isomorphic-fetch');
 
+const {CHECK_STATUS} = require('../definitions/CHECK_STATUS');
+const {COLOURS} = require('../definitions/COLOURS');
+
+
 module.exports = {
     doCheck: async (commandArgs) => {
         const domain = commandArgs[0];
@@ -8,15 +12,18 @@ module.exports = {
             try{
                 const fetchResult = await fetchDomain(domain);
 
+                const checkStatusIsOKResult = checkStatusIsOK(fetchResult);
+
+                const overallStatusColour = getDomainOverallStatusColour(checkStatusIsOKResult.status);
                 const result = {
-                    title: ':dog: WOOF WOOF!',
-                    text: 'I :heart: you so much! Can I have a biscuit now?',
+                    text: ':dog: WOOF WOOF! Can I have a biscuit now?',
                     attachments:[
                         {
                             title: domain,
-                            title_link: `https:// ${domain}`,
+                            title_link: `https://${domain}`,
+                            color: overallStatusColour,
                             fields:[
-                                checkStatusIsOK(fetchResult)
+                                checkStatusIsOKResult.slackField
                             ]
                         }
                     ]
@@ -41,16 +48,30 @@ function fetchDomain(domain){
 
 function checkStatusIsOK(fetchResult){
     const result = {
-      title: 'HTTPS Status Check',
-      short: true
+        slackField: {
+            title: 'HTTPS Status Check',
+            short: true
+        }
     };
 
     if(fetchResult.ok === true){
-        result.value = `:white_check_mark: ${fetchResult.status}`;
+        result.slackField.value = `:white_check_mark: ${fetchResult.status}`;
+        result.status = CHECK_STATUS.GOOD;
      }
      else{
-        result.value = `:rotating_light: ${fetchResult.status}`;
+        result.slackField.value = `:rotating_light: ${fetchResult.status}`;
+        result.status = CHECK_STATUS.DANGER;
      }
 
      return result;
+}
+
+function getDomainOverallStatusColour(status){
+
+    switch(status){
+        case CHECK_STATUS.GOOD: return COLOURS.GOOD;
+        case CHECK_STATUS.WARNING: return COLOURS.WARNING;
+        case CHECK_STATUS.DANGER: return COLOURS.DANGER;
+        default: return COLOURS.WARNING;
+    }
 }
