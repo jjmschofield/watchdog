@@ -4,6 +4,8 @@ module.exports = {
     slackAuthentication: (req, res, next) => {
         const payload = req.body;
 
+        console.log(payload);
+
         if (payload && payload.token === getConfig().slackCommandToken) {
             next();
         }
