@@ -2,6 +2,7 @@ class CheckResult {
     constructor(title) {
         this.slackField = {
             title: title,
+            value: null,
             short: true
         };
 

@@ -7,8 +7,10 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "start:dev": "nodemon $NODE_DEBUG_OPTION index.js"
+    "start": "node ./src/index.js",
+    "start:dev": "nodemon $NODE_DEBUG_OPTION ./src/index.js",
+    "test:unit": "jest",
+    "test:unit:coverage": "jest --config jest.config.coverage.js"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
