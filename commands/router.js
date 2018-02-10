@@ -21,12 +21,21 @@ function commandController(req, res) {
 
     console.log(req.body);
 
+    const args = getArgs(req);
 
-    const args = req.body.text.split(' ');
-    const lowercaseArgs = args.map(arg => arg.toLowerCase());
+    const command = args[0];
+    const handler = getHandler(command);
+    handler(args)
+        .then((result) => {
+            res.status(200).send(result);
+        })
+        .catch((error) => {
+            res.status(error.status || 500).send(error.message);
+        });
 
-    const command = lowercaseArgs[0];
+}
 
+function getHandler(command){
     let handler;
     switch (command) {
         case COMMAND_TYPES.HELP :
@@ -36,12 +45,13 @@ function commandController(req, res) {
             handler = getHelpText;
     }
 
-    handler()
-        .then((result) => {
-            res.status(200).send(result);
-        })
-        .catch((error) => {
-            res.status(error.status || 500).send(error.message);
-        });
+    return handler;
+}
+
+function getArgs(req){
+    const args = req.body.text.split(' ');
+    const lowercaseArgs = args.map(arg => arg.toLowerCase());
+
+    return lowercaseArgs;
 
 }
