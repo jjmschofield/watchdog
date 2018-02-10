@@ -6,7 +6,13 @@ startServer();
 
 function loadEnvironmentVariables(){
     const loadedConfig = dotenv.config();
-    console.log('Loaded environment variables from .env', Object.keys(loadedConfig.parsed));
+
+    if(!loadedConfig.error){
+        console.log('Loaded environment variables from .env', Object.keys(loadedConfig.parsed));
+    }
+    else {
+        console.warn(loadedConfig.error.message);
+    }
 }
 
 function startServer(){
