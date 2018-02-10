@@ -11,6 +11,7 @@ function createCommandRouter(){
   router.use(slackAuthentication);
 
   router.post('/', (req,res)=>{
+      console.log(req.body);
      res.status(200).send('hi');
   });
 
