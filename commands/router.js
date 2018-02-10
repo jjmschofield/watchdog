@@ -7,7 +7,7 @@ module.exports = {
 function createCommandRouter(){
   const router = express.Router();
 
-  router.get('/', (req,res)=>{
+  router.post('/', (req,res)=>{
      res.status(200).send('hi');
   });
 
