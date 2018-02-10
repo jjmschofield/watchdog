@@ -1,7 +1,10 @@
 const express = require('express');
+
 const {slackAuthentication} = require('./middleware/authenticate');
+
 const {COMMAND_TYPES} = require('./definitions/COMMAND_TYPES');
 const {getHelpText} = require('./handlers/help');
+const {doCheck} = require('./handlers/check');
 
 module.exports = {
     createCommandRouter
@@ -22,10 +25,12 @@ function commandController(req, res) {
     console.log(req.body);
 
     const args = getArgs(req);
-
     const command = args[0];
+    const commandArgs = args.slice(1);
+
     const handler = getHandler(command);
-    handler(args)
+
+    handler(commandArgs)
         .then((result) => {
             res.status(200).send(result);
         })
@@ -40,6 +45,9 @@ function getHandler(command){
     switch (command) {
         case COMMAND_TYPES.HELP :
             handler = getHelpText;
+            break;
+        case COMMAND_TYPES.CHECK :
+            handler = doCheck;
             break;
         default :
             handler = getHelpText;
