@@ -55,11 +55,11 @@ function checkStatusIsOK(fetchResult){
     };
 
     if(fetchResult.ok === true){
-        result.slackField.value = `:white_check_mark: ${fetchResult.status}`;
+        result.slackField.value = `:white_check_mark: ${fetchResult.status} ${fetchResult.statusText}`;
         result.status = CHECK_STATUS.GOOD;
      }
      else{
-        result.slackField.value = `:rotating_light: ${fetchResult.status}`;
+        result.slackField.value = `:rotating_light: ${fetchResult.status} ${fetchResult.statusText}`;
         result.status = CHECK_STATUS.DANGER;
      }
 
