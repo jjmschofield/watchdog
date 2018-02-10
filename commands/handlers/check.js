@@ -8,23 +8,25 @@ module.exports = {
     doCheck: async (commandArgs) => {
         const domain = commandArgs[0];
 
-        if(typeof domain === 'string'){ //Test the provided domain
-            try{
+        if (typeof domain === 'string') { //Test the provided domain
+            try {
                 const fetchResult = await fetchDomain(domain);
 
-                const checkStatusIsOKResult = checkStatusIsOK(fetchResult);
+                const checks = [
+                    checkStatusIsOK(fetchResult)
+                ];
 
-                const overallStatusColour = getDomainOverallStatusColour(checkStatusIsOKResult.status);
+                const domainStatus = getDomainStatus(checks);
+                const domainStatusColour = getDomainStatusColour(domainStatus);
+
                 const result = {
                     text: ':dog: WOOF WOOF! Can I have a biscuit now?',
-                    attachments:[
+                    attachments: [
                         {
                             title: domain,
                             title_link: `https://${domain}`,
-                            color: overallStatusColour,
-                            fields:[
-                                checkStatusIsOKResult.slackField
-                            ]
+                            color: domainStatusColour,
+                            fields: getSlackFields(checks)
                         }
                     ]
                 };
@@ -32,21 +34,21 @@ module.exports = {
                 return result;
 
             }
-            catch(error){
+            catch (error) {
                 return Promise.reject(error);
             }
         }
-        else{ // Test watched domains
+        else { // Test watched domains
             return;
         }
     }
 };
 
-function fetchDomain(domain){
+function fetchDomain(domain) {
     return fetch('https://' + domain);
 }
 
-function checkStatusIsOK(fetchResult){
+function checkStatusIsOK(fetchResult) {
     const result = {
         slackField: {
             title: 'HTTPS Status Check',
@@ -54,24 +56,45 @@ function checkStatusIsOK(fetchResult){
         }
     };
 
-    if(fetchResult.ok === true){
+    if (fetchResult.ok === true) {
         result.slackField.value = `:white_check_mark: ${fetchResult.status} ${fetchResult.statusText}`;
         result.status = CHECK_STATUS.GOOD;
-     }
-     else{
+    }
+    else {
         result.slackField.value = `:rotating_light: ${fetchResult.status} ${fetchResult.statusText}`;
         result.status = CHECK_STATUS.DANGER;
-     }
+    }
 
-     return result;
+    return result;
 }
 
-function getDomainOverallStatusColour(status){
+function getDomainStatus(checks) {
+    return checks.reduce((result, check) => {
+        if (check.status > result) {
+            return check.status;
+        }
+        else {
+            return result;
+        }
+    },0);
+}
 
-    switch(status){
-        case CHECK_STATUS.GOOD: return COLOURS.GOOD;
-        case CHECK_STATUS.WARNING: return COLOURS.WARNING;
-        case CHECK_STATUS.DANGER: return COLOURS.DANGER;
-        default: return COLOURS.WARNING;
+function getDomainStatusColour(status) {
+
+    switch (status) {
+        case CHECK_STATUS.GOOD:
+            return COLOURS.GOOD;
+        case CHECK_STATUS.WARNING:
+            return COLOURS.WARNING;
+        case CHECK_STATUS.DANGER:
+            return COLOURS.DANGER;
+        default:
+            return COLOURS.WARNING;
     }
+}
+
+function getSlackFields(checks) {
+    return checks.map((check) => {
+        return check.slackField;
+    });
 }
