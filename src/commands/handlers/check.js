@@ -23,19 +23,6 @@ module.exports = {
 
                 const checks = [
                     checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult),
-                    checkStatusIsOK(fetchResult)
                     //domain name expiry
                     //SSL cert expiry
                     //Cipher level
