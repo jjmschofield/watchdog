@@ -1,19 +1,19 @@
 class CheckResult {
-    constructor(title) {
-        this.slackField = {
-            title: title,
-            value: null,
-            short: true
-        };
+  constructor(title) {
+    this.slackField = {
+      title,
+      value: null,
+      short: true,
+    };
 
-        this.status = null;
+    this.status = null;
 
-        Object.seal(this);
-    }
+    Object.seal(this);
+  }
 }
 
 module.exports = {
-    createCheckResult: (title) => {
-        return new CheckResult(title);
-    }
+  createCheckResult: (title) => {
+    return new CheckResult(title);
+  },
 };

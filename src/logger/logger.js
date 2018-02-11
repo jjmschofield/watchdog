@@ -1,29 +1,31 @@
-const winston = require("winston");
+const winston = require('winston');
 const correlator = require('correlation-id');
 const caller = require('caller');
-const level = process.env.LOG_LEVEL || 'debug';
+
+const logLevel = process.env.LOG_LEVEL || 'debug';
 
 const transports = [
-    new winston.transports.Console({
-        level: level,
-        timestamp: true,
-        colorize: true
-    })
+  new winston.transports.Console({
+    level: logLevel,
+    timestamp: true,
+    colorize: true,
+  }),
 ];
 
 const rewriters = [
-    (level, msg, meta) => {
-        meta.app = 'watchdog';
-        meta.timestamp = Date.now();
-        meta.correlationId = correlator.getId();
-        meta.caller = caller(5);
-        return meta;
-    }
+  (level, msg, meta) => {
+    const updatedMeta = Object.assign({}, meta);
+    updatedMeta.app = 'watchdog';
+    updatedMeta.timestamp = Date.now();
+    updatedMeta.correlationId = correlator.getId();
+    updatedMeta.caller = caller(5);
+    return updatedMeta;
+  },
 ];
 
 module.exports = {
-    logger: new winston.Logger({
-        rewriters,
-        transports
-    })
+  logger: new winston.Logger({
+    rewriters,
+    transports,
+  }),
 };
