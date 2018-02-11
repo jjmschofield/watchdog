@@ -7,26 +7,30 @@ const {createCheckResult} = require('../models/CheckResult');
 
 module.exports = {
     doCheck: async (commandArgs) => {
-        const domain = commandArgs[0];
+        const url = commandArgs[0];
 
-        if (typeof domain === 'string') { //Test the provided domain
+        if (typeof url === 'string') {
             try {
-                const fetchResult = await fetchDomain(domain);
+
+                const fetchResult = await fetch(`${url}`);
 
                 const checks = [
-                    checkStatusIsOK(fetchResult)
+                    checkStatusIsOK(fetchResult),
+                    //domain name expiry
+                    //SSL cert expiry
+                    //Cipher level
                 ];
 
-                const domainStatus = getDomainStatus(checks);
-                const domainStatusColour = getDomainStatusColour(domainStatus);
+                const urlStatus = getUrlStatus(checks);
+                const urlStatusColour = getUrlStatusColour(urlStatus);
 
                 const result = {
                     text: ':dog: WOOF WOOF! Can I have a biscuit now?',
                     attachments: [
                         {
-                            title: domain,
-                            title_link: `https://${domain}`,
-                            color: domainStatusColour,
+                            title: url.toUpperCase(),
+                            title_link: `${url}`,
+                            color: urlStatusColour,
                             fields: getSlackFields(checks)
                         }
                     ]
@@ -39,18 +43,14 @@ module.exports = {
                 return Promise.reject(error);
             }
         }
-        else { // Test watched domains
+        else { // Test watched urls
             return;
         }
     }
 };
 
-function fetchDomain(domain) {
-    return fetch('https://' + domain);
-}
-
 function checkStatusIsOK(fetchResult) {
-    const checkResult = createCheckResult('HTTPS Status Check');
+    const checkResult = createCheckResult('Request Status Check');
 
     if (fetchResult.ok === true) {
         checkResult.slackField.value = `:white_check_mark: ${fetchResult.status} ${fetchResult.statusText}`;
@@ -64,7 +64,7 @@ function checkStatusIsOK(fetchResult) {
     return checkResult;
 }
 
-function getDomainStatus(checks) {
+function getUrlStatus(checks) {
     return checks.reduce((result, check) => {
         if (check.status > result) {
             return check.status;
@@ -75,7 +75,7 @@ function getDomainStatus(checks) {
     },0);
 }
 
-function getDomainStatusColour(status) {
+function getUrlStatusColour(status) {
 
     switch (status) {
         case CHECK_STATUS.GOOD:
