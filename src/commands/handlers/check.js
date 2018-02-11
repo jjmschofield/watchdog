@@ -1,4 +1,5 @@
 const fetch = require('isomorphic-fetch');
+const validator = require('validator');
 
 const {CHECK_STATUS} = require('../definitions/CHECK_STATUS');
 const {COLOURS} = require('../definitions/COLOURS');
@@ -9,7 +10,11 @@ module.exports = {
     doCheck: async (commandArgs) => {
         const url = commandArgs[0];
 
-        if (typeof url === 'string') {
+        if(url && !isAllowedUrl(url)){
+            return Promise.reject({status:400, message:'Invalid URL provided'});
+        }
+
+        if (url) {
             try {
 
                 const fetchResult = await fetch(`${url}`);
@@ -93,4 +98,12 @@ function getSlackFields(checks) {
     return checks.map((check) => {
         return check.slackField;
     });
+}
+
+function isAllowedUrl(url){
+    return typeof url === 'string'
+        && validator.isURL(url, )
+        && validator.isFQDN(url.replace('http://','').replace('https://',''))
+        && !validator.contains(url, 'localhost')
+        && !validator.contains(url, '127.0.0.1');
 }
