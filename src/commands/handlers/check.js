@@ -1,6 +1,7 @@
 const fetch = require('isomorphic-fetch');
 const validator = require('validator');
 
+const {logger} = require('../../logger/logger');
 const {CHECK_STATUS} = require('../definitions/CHECK_STATUS');
 const {COLOURS} = require('../definitions/COLOURS');
 const {createCheckResult} = require('../models/CheckResult');
@@ -17,6 +18,7 @@ module.exports = {
         if (url) {
             try {
 
+                logger.error('hi');
                 const fetchResult = await fetch(`${url}`);
 
                 const checks = [

@@ -1,7 +1,7 @@
 const express = require('express');
 
+const {logger} = require('../logger/logger');
 const {slackAuthentication} = require('./middleware/authenticate');
-
 const {COMMAND_TYPES} = require('./definitions/COMMAND_TYPES');
 const {getHelpText} = require('./handlers/help');
 const {doCheck} = require('./handlers/check');
@@ -22,7 +22,7 @@ function createCommandRouter() {
 
 function commandController(req, res) {
 
-    console.log(req.body);
+    logger.silly(req.body);
 
     const args = getArgs(req);
     const command = args[0];

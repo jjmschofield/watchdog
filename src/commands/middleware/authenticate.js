@@ -1,4 +1,6 @@
 const {getConfig} = require('../../config/config');
+const {logger} = require('../../logger/logger');
+
 
 module.exports = {
     slackAuthentication: (req, res, next) => {
@@ -6,7 +8,7 @@ module.exports = {
 
         if(typeof slackSecret !== 'string') {
             res.status(503).send();
-            console.warn('SLACK_COMMAND_TOKEN not set. Sending 503.');
+            logger.warn('SLACK_COMMAND_TOKEN not set. Sending 503.');
             return;
         }
 
