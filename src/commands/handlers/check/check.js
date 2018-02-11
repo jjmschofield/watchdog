@@ -1,6 +1,6 @@
 const fetch = require('isomorphic-fetch');
-const validator = require('validator');
 
+const { isAllowedUrl } = require('../utils/validators');
 const { checkResponseStatus } = require('./checks/checkResponseStatus');
 const { createCheckSlackResponse } = require('./models/CheckSlackResponse');
 
@@ -35,12 +35,3 @@ module.exports = {
     return null;
   },
 };
-
-
-function isAllowedUrl(url) {
-  return typeof url === 'string'
-    && validator.isURL(url)
-    && validator.isFQDN(url.replace('http://', '').replace('https://', ''))
-    && !validator.contains(url, 'localhost')
-    && !validator.contains(url, '127.0.0.1');
-}
