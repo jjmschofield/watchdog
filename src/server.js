@@ -1,8 +1,11 @@
 const path = require('path');
 const express = require('express');
-const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+
+const {logger} = require('./logger/logger');
+const {logRequestStandard, logRequestError} = require('./logger/middleware/requestLoggers');
+const {setCorrelationId} = require('./logger/middleware/correlationId');
 
 const {createCommandRouter} = require('./commands/router');
 
@@ -15,9 +18,9 @@ module.exports = {
 function init() {
     const app = createExpressApp();
 
+    registerBodyParserMiddleware(app);
     registerLoggerMiddleware(app);
     registerSecurityMiddleware(app);
-    registerBodyParser(app);
 
     configureViewRenderer(app);
 
@@ -31,17 +34,19 @@ function createExpressApp() {
     return express();
 }
 
-function registerLoggerMiddleware(app){
-    app.use(morgan('tiny'));
+function registerLoggerMiddleware(app) {
+    app.use(setCorrelationId);
+    app.use(logRequestStandard);
+    app.use(logRequestError);
 }
 
-function registerSecurityMiddleware(app){
+function registerSecurityMiddleware(app) {
     app.use(helmet()); // Sets a range of headers to protect the server and users, main benefit is for browsers - but we include it for belts and braces
 }
 
-function registerBodyParser(app){
+function registerBodyParserMiddleware(app) {
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }))
+    app.use(bodyParser.urlencoded({extended: true}))
 }
 
 function registerDefaultRoute(app) {
@@ -50,12 +55,12 @@ function registerDefaultRoute(app) {
     });
 }
 
-function registerCommandRouter(app){
+function registerCommandRouter(app) {
     app.use('/commands', createCommandRouter());
 }
 
 function startListening(app) {
-    app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+    app.listen(PORT, () => logger.info(`Watchdog listening on ${ PORT }`));
 }
 
 function configureViewRenderer(app) {

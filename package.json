@@ -8,19 +8,22 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "start:dev": "nodemon $NODE_DEBUG_OPTION ./src/index.js",
+    "start:dev": "nodemon --inspect=3001 ./src/index.js",
     "test:unit": "jest",
     "test:unit:coverage": "jest --config jest.config.coverage.js"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "caller": "^1.0.1",
+    "correlation-id": "^2.0.0",
     "dotenv": "^5.0.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "helmet": "^3.11.0",
     "isomorphic-fetch": "^2.2.1",
     "morgan": "^1.9.0",
-    "validator": "^9.4.0"
+    "validator": "^9.4.0",
+    "winston": "^2.4.0"
   },
   "devDependencies": {
     "jest": "^22.2.1",
