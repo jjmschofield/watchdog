@@ -19,6 +19,7 @@ module.exports = {
 
 function getCorrelationIdFromRequest(req){
     if(req.body && req.body.trigger_id){ //TODO scope this to slack command origin also
-        return req.body.trigger_idl
+        return req.body.trigger_id;
     }
+    return null;
 }
