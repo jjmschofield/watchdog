@@ -3,8 +3,8 @@ const express = require('express');
 const { logger } = require('../logger/logger');
 const { slackAuthentication } = require('./middleware/authenticate');
 const { COMMAND_TYPES } = require('./definitions/COMMAND_TYPES');
-const { getHelpText } = require('./handlers/help');
-const { doCheck } = require('./handlers/check');
+const { getHelpText } = require('./handlers/help/help');
+const { doCheck } = require('./handlers/check/check');
 
 module.exports = {
   createCommandRouter,

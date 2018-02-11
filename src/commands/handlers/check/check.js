@@ -1,11 +1,9 @@
 const fetch = require('isomorphic-fetch');
 const validator = require('validator');
 
-const { logger } = require('../../logger/logger');
-const { CHECK_STATUS } = require('../definitions/CHECK_STATUS');
-const { COLOURS } = require('../definitions/COLOURS');
-const { createCheckResult } = require('../models/CheckResult');
-
+const { CHECK_STATUS } = require('../../definitions/CHECK_STATUS');
+const { createCheckResult } = require('./models/CheckResult');
+const { createCheckSlackResponse } = require('./models/CheckSlackResponse');
 
 module.exports = {
   doCheck: async (commandArgs) => {
@@ -17,7 +15,6 @@ module.exports = {
 
     if (url) {
       try {
-        logger.error('hi');
         const fetchResult = await fetch(`${url}`);
 
         const checks = [
@@ -27,20 +24,7 @@ module.exports = {
           // Cipher level
         ];
 
-        const urlStatus = getUrlStatus(checks);
-        const urlStatusColour = getUrlStatusColour(urlStatus);
-
-        const result = {
-          text: ':dog: WOOF WOOF! Can I have a biscuit now?',
-          attachments: [
-            {
-              title: url.toUpperCase(),
-              title_link: `${url}`,
-              color: urlStatusColour,
-              fields: getSlackFields(checks),
-            },
-          ],
-        };
+        const result = createCheckSlackResponse(checks, url);
 
         return result;
       }
@@ -66,35 +50,6 @@ function checkStatusIsOK(fetchResult) {
   }
 
   return checkResult;
-}
-
-function getUrlStatus(checks) {
-  return checks.reduce((result, check) => {
-    if (check.status > result) {
-      return check.status;
-    }
-
-    return result;
-  }, 0);
-}
-
-function getUrlStatusColour(status) {
-  switch (status) {
-    case CHECK_STATUS.GOOD:
-      return COLOURS.GOOD;
-    case CHECK_STATUS.WARNING:
-      return COLOURS.WARNING;
-    case CHECK_STATUS.DANGER:
-      return COLOURS.DANGER;
-    default:
-      return COLOURS.WARNING;
-  }
-}
-
-function getSlackFields(checks) {
-  return checks.map((check) => {
-    return check.slackField;
-  });
 }
 
 function isAllowedUrl(url) {
