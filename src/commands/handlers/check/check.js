@@ -1,8 +1,7 @@
 const fetch = require('isomorphic-fetch');
 const validator = require('validator');
 
-const { CHECK_STATUS } = require('../../definitions/CHECK_STATUS');
-const { createCheckResult } = require('./models/CheckResult');
+const { checkResponseStatus } = require('./checks/checkResponseStatus');
 const { createCheckSlackResponse } = require('./models/CheckSlackResponse');
 
 module.exports = {
@@ -18,7 +17,7 @@ module.exports = {
         const fetchResult = await fetch(`${url}`);
 
         const checks = [
-          checkStatusIsOK(fetchResult),
+          checkResponseStatus(fetchResult),
           // domain name expiry
           // SSL cert expiry
           // Cipher level
@@ -37,20 +36,6 @@ module.exports = {
   },
 };
 
-function checkStatusIsOK(fetchResult) {
-  const checkResult = createCheckResult('Request Status Check');
-
-  if (fetchResult.ok === true) {
-    checkResult.slackField.value = `:white_check_mark: ${fetchResult.status} ${fetchResult.statusText}`;
-    checkResult.status = CHECK_STATUS.GOOD;
-  }
-  else {
-    checkResult.slackField.value = `:rotating_light: ${fetchResult.status} ${fetchResult.statusText}`;
-    checkResult.status = CHECK_STATUS.DANGER;
-  }
-
-  return checkResult;
-}
 
 function isAllowedUrl(url) {
   return typeof url === 'string'
