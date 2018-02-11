@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
 const {createCommandRouter} = require('./commands/router');
 
@@ -15,6 +16,7 @@ function init() {
     const app = createExpressApp();
 
     registerLoggerMiddleware(app);
+    registerSecurityMiddleware(app);
     registerBodyParser(app);
 
     configureViewRenderer(app);
@@ -31,6 +33,10 @@ function createExpressApp() {
 
 function registerLoggerMiddleware(app){
     app.use(morgan('tiny'));
+}
+
+function registerSecurityMiddleware(app){
+    app.use(helmet()); // Sets a range of headers to protect the server and users, main benefit is for browsers - but we include it for belts and braces
 }
 
 function registerBodyParser(app){

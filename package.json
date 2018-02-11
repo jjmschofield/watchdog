@@ -17,8 +17,10 @@
     "dotenv": "^5.0.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "helmet": "^3.11.0",
     "isomorphic-fetch": "^2.2.1",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "validator": "^9.4.0"
   },
   "devDependencies": {
     "jest": "^22.2.1",
