@@ -2,7 +2,9 @@ const fetch = require('isomorphic-fetch');
 
 const { isAllowedUrl } = require('../utils/validators');
 const { checkResponseStatus } = require('./checks/checkResponseStatus');
+const { checkSSLCertExpiry } = require('./checks/checkSSLCertExpiry');
 const { createCheckSlackResponse } = require('./models/CheckSlackResponse');
+const requestHelper = require('../utils/httpsRequestHelper');
 
 module.exports = {
   doCheck: async (commandArgs) => {
@@ -14,18 +16,9 @@ module.exports = {
 
     if (url) {
       try {
-        const fetchResult = await fetch(`${url}`);
+        const checks = await runChecks(url);
 
-        const checks = [
-          checkResponseStatus(fetchResult),
-          // domain name expiry
-          // SSL cert expiry
-          // Cipher level
-        ];
-
-        const result = createCheckSlackResponse(checks, url);
-
-        return result;
+        return createCheckSlackResponse(checks, url);
       }
       catch (error) {
         return Promise.reject(error);
@@ -35,3 +28,17 @@ module.exports = {
     return null;
   },
 };
+
+async function runChecks(url) {
+  const fetchResult = await fetch(url);
+  const cert = await requestHelper.getSSL(url);
+
+  return [
+    checkResponseStatus(fetchResult),
+    checkSSLCertExpiry(cert),
+    // domain name expiry
+    // SSL cert expiry
+    // Cipher level
+  ];
+}
+
