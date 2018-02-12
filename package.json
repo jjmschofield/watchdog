@@ -44,5 +44,6 @@
     "heroku",
     "express"
   ],
-  "license": "MIT"
+  "license": "UNLICENSED",
+  "private": true
 }
