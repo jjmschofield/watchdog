@@ -1,6 +1,7 @@
 /* eslint-disable no-trailing-spaces */
 const datefns = require('date-fns');
 const { CHECK_STATUS } = require('../../../definitions/CHECK_STATUS');
+const { STATUS_EMOJI } = require('../../../definitions/STATUS_EMOJI');
 const { createCheckResult } = require('../models/CheckResult');
 
 module.exports = {
@@ -13,16 +14,16 @@ module.exports = {
 
     switch (status) {
       case CHECK_STATUS.GOOD:
-        checkResult.slackField.value = `:white_check_mark: ${differenceInDays} days`;
+        checkResult.slackField.value = `${STATUS_EMOJI.GOOD} ${differenceInDays} days`;
         break;
       case CHECK_STATUS.WARNING:
-        checkResult.slackField.value = `:warning: ${differenceInDays} days`;
+        checkResult.slackField.value = `${STATUS_EMOJI.WARNING} ${differenceInDays} days`;
         break;
       case CHECK_STATUS.DANGER:
-        checkResult.slackField.value = `:rotating_light: ${differenceInDays} days`;
+        checkResult.slackField.value = ` ${STATUS_EMOJI.DANGER} ${differenceInDays} days`;
         break;
       default:
-        checkResult.slackField.value = `:rotating_light: ${differenceInDays} days`;
+        checkResult.slackField.value = `${STATUS_EMOJI.DANGER} ${differenceInDays} days`;
     }
 
     return checkResult;
