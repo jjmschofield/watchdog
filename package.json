@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "description": "A sentry bot that helps monitor your public web assets",
   "engines": {
-    "node": "8.9.1"
+    "node": "8.9.4"
   },
   "main": "index.js",
   "scripts": {
