@@ -1,5 +1,6 @@
 # Ensure text files maintain LF line endings
 * text=auto
+*.js text eol=lf
 
 # These files are binary and should be left untouched
 # (binary is a macro for -text -diff)
