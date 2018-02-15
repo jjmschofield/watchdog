@@ -10,7 +10,7 @@ function loadEnvironmentVariables() {
 
   if (!loadedConfig.error) {
     logger.info('Loaded environment variables from .env', {
-      envVars: Object.keys(loadedConfig.parsed)
+      envVars: Object.keys(loadedConfig.parsed),
     });
   }
   else {
@@ -21,5 +21,3 @@ function loadEnvironmentVariables() {
 function startServer() {
   server.init();
 }
-
-
