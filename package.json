@@ -7,11 +7,11 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "npm run lint && node $NODE_DEBUG_OPTION ./src/index.js",
+    "start": "yarn lint && node ./src/index.js",
     "start:dev": "nodemon --inspect=3001 --exec npm start",
     "test:unit": "jest",
     "test:unit:coverage": "jest --config jest.config.coverage.js",
-    "lint": "eslint src/**/*"
+    "lint": "eslint src/**/*.js"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
