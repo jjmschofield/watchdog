@@ -1,4 +1,3 @@
-/* eslint-disable no-trailing-spaces */
 const datefns = require('date-fns');
 const { CHECK_STATUS } = require('../../../definitions/CHECK_STATUS');
 const { createCheckResult } = require('../models/CheckResult');
