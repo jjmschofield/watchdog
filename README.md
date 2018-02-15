@@ -13,8 +13,8 @@ Watchdog is not a fully fledged monitoring solution. It is also not a fully fled
 ## Running Locally
 
 ```sh
-$ npm install
-$ npm start
+$ yarn install
+$ yarn start
 ```
 
 ## Deploying to Heroku
