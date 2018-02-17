@@ -1,5 +1,5 @@
 module.exports = {
-  COMMAND_TYPES: {
+  COMMAND_NAMES: {
     HELP: 'help',
     CHECK: 'check',
     WATCH: 'watch',
@@ -7,4 +7,4 @@ module.exports = {
   },
 };
 
-Object.freeze(module.exports.COMMAND_TYPES);
+Object.freeze(module.exports.COMMAND_NAMES);

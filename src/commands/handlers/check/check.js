@@ -1,24 +1,16 @@
 const fetch = require('isomorphic-fetch');
-
-const { isAllowedUrl } = require('../utils/validators');
 const { checkResponseStatus } = require('./checks/checkResponseStatus');
 const { checkSSLCertExpiry } = require('./checks/checkSSLCertExpiry');
 const { createCheckSlackResponse } = require('./models/CheckSlackResponse');
 const requestHelper = require('../utils/httpsRequestHelper');
 
 module.exports = {
-  doCheck: async (commandArgs) => {
-    const url = commandArgs[0];
-
-    if (url && !isAllowedUrl(url)) {
-      return Promise.reject({ status: 400, message: 'Invalid URL provided' });
-    }
-
-    if (url) {
+  doCheck: async (command) => {
+    if (command.url) {
       try {
-        const checks = await runChecks(url);
+        const checks = await runChecks(command.url);
 
-        return createCheckSlackResponse(checks, url);
+        return createCheckSlackResponse(checks, command.url);
       }
       catch (error) {
         return Promise.reject(error);
