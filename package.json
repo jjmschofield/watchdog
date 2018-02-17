@@ -11,6 +11,7 @@
     "start:dev": "nodemon --inspect=3001 --exec npm start",
     "test:unit": "jest",
     "test:unit:coverage": "jest --config jest.config.coverage.js",
+    "test:unit:coverage:watch": "yarn test:unit:coverage --watch",
     "lint": "eslint src/**/*.js"
   },
   "dependencies": {
