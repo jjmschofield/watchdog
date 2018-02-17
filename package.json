@@ -3,15 +3,15 @@
   "version": "0.3.0",
   "description": "A sentry bot that helps monitor your public web assets",
   "engines": {
-    "node": "8.9.1"
+    "node": "8.9.4"
   },
   "main": "index.js",
   "scripts": {
-    "start": "npm run lint && node $NODE_DEBUG_OPTION ./src/index.js",
+    "start": "yarn lint && node ./src/index.js",
     "start:dev": "nodemon --inspect=3001 --exec npm start",
     "test:unit": "jest",
     "test:unit:coverage": "jest --config jest.config.coverage.js",
-    "lint": "eslint src/**/*"
+    "lint": "eslint src/**/*.js"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -31,6 +31,7 @@
     "eslint": "^4.17.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.12.1",
     "jest": "^22.2.1",
     "nodemon": "^1.14.12",
     "yarn": "^1.3.2"

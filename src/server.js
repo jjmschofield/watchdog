@@ -12,7 +12,7 @@ const { createCommandRouter } = require('./commands/router');
 const PORT = process.env.PORT || 5000;
 
 module.exports = {
-  init
+  init,
 };
 
 function init() {
@@ -41,12 +41,14 @@ function registerLoggerMiddleware(app) {
 }
 
 function registerSecurityMiddleware(app) {
-  app.use(helmet()); // Sets a range of headers to protect the server and users, main benefit is for browsers - but we include it for belts and braces
+  // Sets a range of headers to protect the server and users, main benefit is for browsers -
+  // but we include it for belts and braces
+  app.use(helmet());
 }
 
 function registerBodyParserMiddleware(app) {
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(bodyParser.urlencoded({ extended: true }));
 }
 
 function registerDefaultRoute(app) {
@@ -60,7 +62,9 @@ function registerCommandRouter(app) {
 }
 
 function startListening(app) {
-  app.listen(PORT, () => logger.info(`Watchdog listening on ${ PORT }`));
+  app.listen(PORT, () => {
+    return logger.info(`Watchdog listening on ${PORT}`);
+  });
 }
 
 function configureViewRenderer(app) {
