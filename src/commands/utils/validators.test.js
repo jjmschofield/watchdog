@@ -1,7 +1,7 @@
 let underTest;
 
 beforeEach(() => {
-// eslint-disable-next-line global-require
+  // eslint-disable-next-line global-require
   underTest = require('./validators');
 });
 
