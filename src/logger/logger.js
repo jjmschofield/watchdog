@@ -2,7 +2,9 @@ const winston = require('winston');
 const correlator = require('correlation-id');
 const caller = require('caller');
 
-const logLevel = process.env.LOG_LEVEL || 'debug';
+const { getConfig } = require('../config/config');
+
+const logLevel = getConfig().logLevel || 'debug';
 
 const transports = [
   new winston.transports.Console({
@@ -25,6 +27,7 @@ const rewriters = [
 
 module.exports = {
   logger: new winston.Logger({
+    level: logLevel,
     rewriters,
     transports,
   }),
