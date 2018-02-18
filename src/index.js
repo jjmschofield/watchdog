@@ -1,23 +1,7 @@
-const dotenv = require('dotenv');
-const server = require('./server');
+const { init } = require('./server');
 const { logger } = require('./logger/logger');
+const { loadEnvironmentVariables } = require('./config/envLoader');
 
+logger.info('Starting Watchdog - woof woof!');
 loadEnvironmentVariables();
-startServer();
-
-function loadEnvironmentVariables() {
-  const loadedConfig = dotenv.config();
-
-  if (!loadedConfig.error) {
-    logger.info('Loaded environment variables from .env', {
-      envVars: Object.keys(loadedConfig.parsed),
-    });
-  }
-  else {
-    logger.warn(loadedConfig.error.message);
-  }
-}
-
-function startServer() {
-  server.init();
-}
+init();
