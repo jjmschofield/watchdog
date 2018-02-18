@@ -1,10 +1,8 @@
 const { createNextMock, createResponseMock, createRequestMock } = require('../../../test/mocks/express.mock');
 const { createMockLogger } = require('../../logger/logger.mock');
 
-
 const mockGetConfig = jest.fn();
 const mockLogger = createMockLogger();
-
 
 let mockNext;
 let mockReq;
@@ -36,7 +34,6 @@ afterEach(() => {
 
 describe('slackAuthentication', () => {
   describe('when slack secret command token has been set', () => {
-
     const validSlackCommandToken = 'valid token';
 
     beforeEach(() => {

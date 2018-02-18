@@ -36,7 +36,7 @@ module.exports = {
   createCommand: (name, url) => {
     return new Command(name, url);
   },
-  getCommandHandler: (command) =>{
+  getCommandHandler: (command) => {
     let handler;
     switch (command.name) {
       case COMMAND_NAMES.HELP:
