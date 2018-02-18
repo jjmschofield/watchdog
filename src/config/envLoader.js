@@ -14,4 +14,4 @@ module.exports = {
       logger.warn(loadedConfig.error.message);
     }
   },
-}
+};
