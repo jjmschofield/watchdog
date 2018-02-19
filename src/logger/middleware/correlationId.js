@@ -5,14 +5,10 @@ module.exports = {
     const providedId = getCorrelationIdFromRequest(req);
 
     if (typeof providedId === 'string') {
-      correlator.withId(providedId, () => {
-        next();
-      });
+      correlator.withId(providedId, next);
     }
     else {
-      correlator.withId(() => {
-        next();
-      });
+      correlator.withId(next);
     }
   },
 };
