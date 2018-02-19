@@ -1,6 +1,6 @@
 describe('logRequestStandard', () => {
   describe('when the request status code is less then 500', () => {
-    it('should log to stdout', () => {
+    it('should log the request at info level', () => {
       expect(true).toEqual(false);
     });
   });
@@ -32,7 +32,7 @@ describe('logRequestError', () => {
   });
 
   describe('when the request status code is greater then or equal to 500', () => {
-    it('should log to stderr', () => {
+    it('should log the request at error level', () => {
       expect(true).toEqual(false);
     });
   });

@@ -1,8 +1,9 @@
 const morgan = require('morgan');
+const { logger } = require('../logger');
 
 let morganLoggerLevel;
 
-if (process.env === 'production') {
+if (process.env.NODE_ENV === 'production') {
   morganLoggerLevel = 'combined';
 }
 else {
@@ -13,14 +14,22 @@ const morganStandardConfig = {
   skip(req, res) {
     return res.statusCode >= 500;
   },
-  stream: process.stdout,
+  stream: {
+    write: (message) => {
+      logger.info(message);
+    },
+  },
 };
 
 const morganErrorConfig = {
   skip(req, res) {
     return res.statusCode < 500;
   },
-  stream: process.stderr,
+  stream: {
+    write: (message) => {
+      logger.error(message);
+    },
+  },
 };
 
 module.exports = {
