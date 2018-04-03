@@ -4,6 +4,8 @@ A friendly bot helper that makes sure everything is ok with your public websites
 ## What does it do?
 Watchdog runs multiple checks on a given URL to help warn you if your site has gone down, is about to go down or if your site has failed basic security checks.
 
+Presently it executes these checks on demand from a Slack command, in the future though it will be capable of recording UR's in a database and running checks using scheduled tasks.
+
 ## What does it not do?
 Watchdog simply keeps an eye on your websites and apps and warns you if it notices something unusual. Even when using Watchdog your site will go down - and more likely then not will have multiple security vulnerabilities. 
 
