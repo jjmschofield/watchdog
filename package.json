@@ -15,13 +15,13 @@
     "lint": "eslint src/**/*.js"
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.19.2",
     "caller": "^1.0.1",
     "correlation-id": "^2.0.0",
     "date-fns": "^1.29.0",
     "dotenv": "^5.0.0",
     "ejs": "^2.5.7",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "helmet": "^3.11.0",
     "isomorphic-fetch": "^2.2.1",
     "morgan": "^1.9.0",
