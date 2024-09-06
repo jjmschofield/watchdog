@@ -17,7 +17,7 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "caller": "^1.0.1",
-    "correlation-id": "^2.0.0",
+    "correlation-id": "^2.1.1",
     "date-fns": "^1.29.0",
     "dotenv": "^5.0.0",
     "ejs": "^2.5.7",
